@@ -71,7 +71,7 @@ Clone the `gpu-recipes` repository and set a reference to the recipe folder.
 git clone https://github.com/ai-hypercomputer/gpu-recipes.git
 cd gpu-recipes
 export REPO_ROOT=`git rev-parse --show-toplevel`
-export RECIPE_ROOT=$REPO_ROOT/training/a4/qwen3-235b/nemo-pretraining-gke/8node-bf16-seq8192-gbs256
+export RECIPE_ROOT=$REPO_ROOT/training/a4/qwen3-235b/nemo-pretraining-gke/8node-bf16-seq4096-gbs256
 cd $RECIPE_ROOT
 ```
 
@@ -92,7 +92,7 @@ your client:
     export WORKLOAD_NAME=$USER-a4-qwen3-235b-moe
     helm install $WORKLOAD_NAME . -f values.yaml \
     --set-file workload_launcher=launcher.sh \
-    --set-file workload_config=qwen3-235b-moe-bf16-seq8192-gbs256-gpus64.py \
+    --set-file workload_config=qwen3-235b-moe-bf16-seq4096-gbs256-gpus64.py \
     --set workload.image=nvcr.io/nvidia/nemo:25.07 \
     --set volumes.gcsMounts[0].bucketName=${GCS_BUCKET} \
     --set volumes.gcsMounts[0].mountPath=/job-logs \
@@ -110,7 +110,7 @@ your client:
     export WORKLOAD_NAME=$USER-a4-qwen3-235b-moe
     helm install $WORKLOAD_NAME . -f values.yaml \
     --set-file workload_launcher=launcher.sh \
-    --set-file workload_config=qwen3-235b-moe-bf16-seq8192-gbs256-gpus64.py \
+    --set-file workload_config=qwen3-235b-moe-bf16-seq4096-gbs256-gpus64.py \
     --set workload.image=nvcr.io/nvidia/nemo:25.07 \
     --set volumes.gcsMounts[0].bucketName=${GCS_BUCKET} \
     --set volumes.gcsMounts[0].mountPath=/job-logs \

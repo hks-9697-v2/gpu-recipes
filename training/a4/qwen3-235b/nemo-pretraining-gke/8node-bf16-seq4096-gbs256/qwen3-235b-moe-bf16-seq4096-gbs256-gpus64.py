@@ -1,8 +1,6 @@
 """Nemo2 pretraining recipe for Qwen3 235B MoE model."""
 
 import os
-os.environ["TORCH_DISTRIBUTED_DEFAULT_BACKEND"] = "nccl"
-os.environ["OMPI_COMM_WORLD_SIZE"] = "0"  # Disable OpenMPI detection by PyTorch
 
 import nemo_run as run
 from nemo.collections import llm
@@ -43,8 +41,8 @@ def recipe(
   mbs = 1  # From image
   gbs = 256  # From image
   max_steps = 30
-  tp_size = 2  # From image
-  pp_size = 4  # From image
+  tp_size = 1  # From image
+  pp_size = 8  # From image
   cp_size = 1  # From image
   vp_size = 1  # From image
   ep_size = 8  # From image
@@ -101,8 +99,8 @@ def recipe(
 
   # Sequence Length (model and data)
   # Assuming 8192 as in Llama, verify if different for Qwen3
-  pretrain.model.config.seq_length = 8192
-  pretrain.data.seq_length = 8192
+  pretrain.model.config.seq_length = 4096
+  pretrain.data.seq_length = 4096
 
  # Set the number of steps to 50 for a quicker benchmark.
   pretrain.trainer.max_steps = 50
