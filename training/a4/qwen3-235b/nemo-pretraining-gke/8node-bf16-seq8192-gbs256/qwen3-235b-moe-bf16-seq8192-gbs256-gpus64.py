@@ -1,5 +1,9 @@
 """Nemo2 pretraining recipe for Qwen3 235B MoE model."""
 
+import os
+os.environ["TORCH_DISTRIBUTED_DEFAULT_BACKEND"] = "nccl"
+os.environ["OMPI_COMM_WORLD_SIZE"] = "0"  # Disable OpenMPI detection by PyTorch
+
 import nemo_run as run
 from nemo.collections import llm
 from nemo.collections.llm.recipes.qwen3_235b_a22b import pretrain_recipe
@@ -39,8 +43,8 @@ def recipe(
   mbs = 1  # From image
   gbs = 256  # From image
   max_steps = 30
-  tp_size = 1  # From image
-  pp_size = 8  # From image
+  tp_size = 2  # From image
+  pp_size = 4  # From image
   cp_size = 1  # From image
   vp_size = 1  # From image
   ep_size = 8  # From image
@@ -123,7 +127,7 @@ def recipe(
   pretrain.trainer.callbacks.append(
       run.Config(
           FLOPsMeasurementCallback,
-          model_name="qwen3-235b-moe",
+          model_name="qwen3_235b_a22b",
           model_config=pretrain.model.config,
           data_config=pretrain.data,
       )
